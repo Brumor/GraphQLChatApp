@@ -1,0 +1,6 @@
+module Pods_graphQLChat {
+  umbrella header "Pods-graphQLChat-umbrella.h"
+
+  export *
+  module * { export * }
+}
