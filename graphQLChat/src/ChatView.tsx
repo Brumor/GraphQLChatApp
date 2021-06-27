@@ -15,15 +15,16 @@ import {
   SEND_MESSAGE_MUTATION,
   MESSAGE_SENT_SUBSCRIPTION,
 } from './graphql';
+import { Chat } from '../../server/src/generated/graphql'
 
 const ChatView = () => {
   const [value, onChangeText] = useState('');
   const [userName, onChangeUserName] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Chat[]>([]);
 
-  const {data: initialData, loading: initialLoading} = useQuery(CHATS_QUERY);
-  const [sendMessage] = useMutation(SEND_MESSAGE_MUTATION);
-  const {data: newData} = useSubscription(MESSAGE_SENT_SUBSCRIPTION);
+  const {data: initialData, loading: initialLoading} = useQuery<{ chats: Chat[]}>(CHATS_QUERY);
+  const [sendMessage] = useMutation<Chat>(SEND_MESSAGE_MUTATION);
+  const {data: newData} = useSubscription<{messageSent: Chat}>(MESSAGE_SENT_SUBSCRIPTION);
 
   useEffect(() => {
     if (initialData) {
@@ -32,8 +33,6 @@ const ChatView = () => {
   }, [initialData]);
 
   useEffect(() => {
-    console.log(newData);
-
     if (newData && !messages.length) {
       setMessages([newData.messageSent]);
     } else if (
