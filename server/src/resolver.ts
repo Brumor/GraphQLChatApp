@@ -1,6 +1,7 @@
-import { Chat, Resolvers } from './generated/graphql';
+import { Chat, Resolvers, User } from './generated/graphql';
 
 const chats: Chat[] = [];
+const users: User[] = [];
 const CHAT_CHANNEL = 'CHAT_CHANNEL';
 
 const resolvers: Resolvers = {
@@ -18,6 +19,13 @@ const resolvers: Resolvers = {
       pubsub.publish('CHAT_CHANNEL', { messageSent: chat });
 
       return chat;
+    },
+    createUser(root, { userName }, { pubsub }) {
+      const newUser = { id: users.length + 1, userName };
+
+      users.push(newUser);
+
+      return newUser;
     },
   },
 

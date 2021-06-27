@@ -16,9 +16,12 @@ import {
   MESSAGE_SENT_SUBSCRIPTION,
 } from './graphql';
 
-const ChatView = () => {
+interface ChatViewProps {
+    userName: string
+}
+
+const ChatView = ({ userName }: ChatViewProps) => {
   const [value, onChangeText] = useState('');
-  const [userName, onChangeUserName] = useState('');
   const [messages, setMessages] = useState([]);
 
   const {data: initialData, loading: initialLoading} = useQuery(CHATS_QUERY);
@@ -70,21 +73,16 @@ const ChatView = () => {
         <View>
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={text => onChangeUserName(text)}
-            value={userName}
-            placeholder={'UserName'}
-          />
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={text => onChangeText(text)}
             value={value}
             placeholder={'Message'}
           />
           <Button
-            title="Press me"
+            title="Send"
             color="#f194ff"
             onPress={() => {
-              console.log(value);
+              console.log({from: userName, message: value});
+                
               sendMessage({variables: {from: userName, message: value}});
             }}
           />
