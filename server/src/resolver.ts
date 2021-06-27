@@ -1,7 +1,9 @@
-const chats = [];
-const CHAT_CHANNEL = "CHAT_CHANNEL";
+import { Chat, Resolvers } from './generated/graphql';
 
-const resolvers = {
+const chats: Chat[] = [];
+const CHAT_CHANNEL = 'CHAT_CHANNEL';
+
+const resolvers: Resolvers = {
   Query: {
     chats(root, args, context) {
       return chats;
@@ -11,10 +13,9 @@ const resolvers = {
   Mutation: {
     sendMessage(root, { from, message }, { pubsub }) {
       const chat = { id: chats.length + 1, from, message };
-      console.log({ chat });
 
       chats.push(chat);
-      pubsub.publish("CHAT_CHANNEL", { messageSent: chat });
+      pubsub.publish('CHAT_CHANNEL', { messageSent: chat });
 
       return chat;
     },
@@ -29,4 +30,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+export default resolvers;

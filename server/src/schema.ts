@@ -1,4 +1,4 @@
-const typeDefs = `
+const schema = `
       type Chat {
         id: Int!
         from: String!
@@ -18,4 +18,4 @@ const typeDefs = `
       }
 		`;
 
-module.exports = typeDefs;
+export default schema;
