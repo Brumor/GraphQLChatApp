@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useMutation} from '@apollo/react-hooks';
 import {CREATE_USER_MUTATION, SEND_MESSAGE_MUTATION} from './graphql';
-import {User} from './types';
+import { User } from '../../server/src/generated/graphql'
 
 interface CreateUserProps {
   setUserName: (value: string) => void;
