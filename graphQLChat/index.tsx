@@ -1,9 +1,6 @@
-/**
- * @format
- */
 import React from 'react';
 import {AppRegistry} from 'react-native';
-import Root from './App';
+import Root from './src/App';
 import {name as appName} from './app.json';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {ApolloClient} from 'apollo-client';
@@ -12,6 +9,7 @@ import {HttpLink} from 'apollo-link-http';
 import {WebSocketLink} from 'apollo-link-ws';
 import {getMainDefinition} from 'apollo-utilities';
 import {ApolloProvider} from '@apollo/react-hooks';
+import {OperationDefinitionNode, FragmentDefinitionNode} from 'graphql';
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000',
@@ -24,10 +22,18 @@ const wsLink = new WebSocketLink({
   },
 });
 
+const isOperationDefinition = (
+  mainDefinition: OperationDefinitionNode | FragmentDefinitionNode,
+): mainDefinition is OperationDefinitionNode =>
+  mainDefinition.kind === 'OperationDefinition';
+
 const link = split(
   ({query}) => {
-    const {kind, operation} = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
+    const mainDefinition = getMainDefinition(query);
+    return (
+      isOperationDefinition(mainDefinition) &&
+      mainDefinition.operation === 'subscription'
+    );
   },
   wsLink,
   httpLink,

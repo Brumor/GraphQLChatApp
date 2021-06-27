@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
@@ -24,7 +16,7 @@ import {
   MESSAGE_SENT_SUBSCRIPTION,
 } from './graphql';
 
-const App = () => {
+const ChatView = () => {
   const [value, onChangeText] = useState('');
   const [userName, onChangeUserName] = useState('');
   const [messages, setMessages] = useState([]);
@@ -106,4 +98,4 @@ const styles = StyleSheet.create({
   scrollView: {},
 });
 
-export default App;
+export default ChatView;
