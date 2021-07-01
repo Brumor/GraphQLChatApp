@@ -20,6 +20,15 @@ export const SEND_MESSAGE_MUTATION = gql`
   }
 `;
 
+export const CREATE_USER_MUTATION = gql`
+  mutation CreateUser($userName: String!) {
+    createUser(userName: $userName) {
+      id
+      userName
+    }
+  }
+`;
+
 export const MESSAGE_SENT_SUBSCRIPTION = gql`
   subscription MessageSentSubscription {
     messageSent {

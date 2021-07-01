@@ -17,9 +17,12 @@ import {
 } from './graphql';
 import { Chat } from '../../server/src/generated/graphql'
 
-const ChatView = () => {
+interface ChatViewProps {
+    userName: string
+}
+
+const ChatView = ({ userName }: ChatViewProps) => {
   const [value, onChangeText] = useState('');
-  const [userName, onChangeUserName] = useState('');
   const [messages, setMessages] = useState<Chat[]>([]);
 
   const {data: initialData, loading: initialLoading} = useQuery<{ chats: Chat[]}>(CHATS_QUERY);
@@ -69,21 +72,16 @@ const ChatView = () => {
         <View>
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            onChangeText={text => onChangeUserName(text)}
-            value={userName}
-            placeholder={'UserName'}
-          />
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
             onChangeText={text => onChangeText(text)}
             value={value}
             placeholder={'Message'}
           />
           <Button
-            title="Press me"
+            title="Send"
             color="#f194ff"
             onPress={() => {
-              console.log(value);
+              console.log({from: userName, message: value});
+                
               sendMessage({variables: {from: userName, message: value}});
             }}
           />

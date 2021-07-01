@@ -23,12 +23,18 @@ export type Chat = {
 export type Mutation = {
   __typename?: 'Mutation';
   sendMessage?: Maybe<Chat>;
+  createUser?: Maybe<User>;
 };
 
 
 export type MutationSendMessageArgs = {
   from: Scalars['String'];
   message: Scalars['String'];
+};
+
+
+export type MutationCreateUserArgs = {
+  userName: Scalars['String'];
 };
 
 export type Query = {
@@ -39,6 +45,12 @@ export type Query = {
 export type Subscription = {
   __typename?: 'Subscription';
   messageSent?: Maybe<Chat>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Int'];
+  userName: Scalars['String'];
 };
 
 
@@ -124,6 +136,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
+  User: ResolverTypeWrapper<User>;
   Subscription: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
@@ -135,6 +148,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   String: Scalars['String'];
   Mutation: {};
+  User: User;
   Subscription: {};
   Boolean: Scalars['Boolean'];
 };
@@ -148,6 +162,7 @@ export type ChatResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   sendMessage?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType, RequireFields<MutationSendMessageArgs, 'from' | 'message'>>;
+  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'userName'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -158,11 +173,18 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   messageSent?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, "messageSent", ParentType, ContextType>;
 };
 
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Chat?: ChatResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };
 
 
